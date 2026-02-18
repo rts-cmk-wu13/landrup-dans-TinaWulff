@@ -1,0 +1,1 @@
+//Detaljeside for holdet som hentes ud fra dets id

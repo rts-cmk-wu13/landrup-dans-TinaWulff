@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+
+body {
+  background: #003147;
+  color: #E9E9E9;
+}
+
+menu {
+  background: #E9E9E9;
+}
+menuicon {
+  color: #6F6F6F;
+}
+
+button {
+  background: #E9E9E9;
+}
