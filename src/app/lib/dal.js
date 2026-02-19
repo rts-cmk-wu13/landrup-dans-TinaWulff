@@ -21,7 +21,6 @@ export async function getActivityDetails(id) {
         throw new Error("Failed to fetch the blog post");
     }
 
-    //not working in thois api:
     // if (res.status === 404) {
     //     return notFound();
     // }
@@ -68,3 +67,35 @@ export async function getUserDetails(id) {
         message: "something went wrong on the server, try again later"
     }
 }
+
+// Bruges ikke:
+/* export async function getAllAssets() {
+    try {
+
+    const res = await fetch(`http://localhost:4000/api/v1/assets`);
+    if (!res.ok) {
+        throw new Error("Failed to fetch the blog post");
+    }
+    
+    if (res.status !== 200) {
+        throw new Error({ message: res.statusText });
+    }
+
+    if (res.headers.get('content-type')?.includes('application/json')) {
+        const data = await res.json();
+        console.log("getAllAssets data:", data); // Udskriver dataen i terminalen
+        return data;
+        //return await res.json();
+    } else {
+        throw new Error("Unexpected content type");
+    }
+
+} catch (error) {
+    console.log("getAllAssets Error", error);
+    
+    return {
+        succes: false,
+        message: "something went wrong on the server, try again later"
+    }
+}
+} */
