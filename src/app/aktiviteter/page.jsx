@@ -21,7 +21,7 @@ export default async function ActivitiesPage () {
   return (
     <main>
     <section >
-     <h1 className='my-4 text-4xl'>Aktiviteter</h1>
+     <h1 className='mx-8 my-4 text-4xl'>Aktiviteter</h1>
 
      { activities.map(activity => (
     <ActivityCard activity={activity} key={activity.id}/>
