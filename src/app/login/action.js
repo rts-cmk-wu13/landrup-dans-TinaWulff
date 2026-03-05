@@ -4,7 +4,6 @@ import { z }from "zod";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-
 const loginSchema = z.object({
     username: z.string("indtast gyldig brugernavn"),
     password: z.string().min(4, "Adgangskode skal være mindst 4 tegn")
@@ -57,8 +56,10 @@ export async function loginUser(prevState, formData) { // når vi laver en actio
     console.log("login response data:", data);
 
     cookieStore.set("accessToken", data.token);
+    // cookieStore.set("accessToken", data.token, {remember ? 'maxAge:60*60*24' : null})
+    // find ud af det rigtige der skal stå her, hvis jeg vil have at den husker token længere, så kan jeg sætte en udløbstid på den cookie, og det kan jeg gøre ved at tilføje et tredje argument til cookieStore.set, hvor jeg kan specificere maxAge (i sekunder) eller expires (en dato). Hvis jeg ikke sætter nogen udløbstid, så vil cookien være en session-cookie, som betyder at den kun varer indtil brugeren lukker browseren.
     cookieStore.set("username", data.name);
     cookieStore.set("userId", String(data.userId));
 
-    return redirect("/profil"); // når login er succesfuldt, så redirecter vi brugeren til profil-siden.
+    return redirect("/profil")// når login er succesfuldt, så redirecter vi brugeren til profil-siden.
 }

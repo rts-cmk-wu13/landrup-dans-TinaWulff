@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { CreateUser } from "./creat-action";  
+import Link from "next/link";
 
 const initialState = {
     values: {
@@ -21,7 +22,7 @@ const initialState = {
 
     return (
         <form action={formAction} 
-        className="mx-7 flex flex-col gap-6">
+        className="mx-7 flex flex-col gap-6 mb-10 pb-10">
             <h1 className="text-4xl my-4">Opret bruger</h1>
 
             <div>
@@ -85,11 +86,26 @@ const initialState = {
 
             <div className="mx-10 flex justify-center">
                 { state.errors?.form && <p>{state.errors.form}</p> }
+                
+                {state.success && 
+                <div className="w-full h-full bg-[#003147]/70 fixed top-0 left-0 z-50 flex items-center justify-center"> 
+                <div className="text-green-600 mb-10 bg-gray-200 p-20 rounded-lg absolute top-[40%] z-1000 flex flex-col items-center shadow-4xl border-4 border-green-600">
+
+                        <p className="mb-4">{state.success}</p>
+
+                        <Link href="/login" className="bg-[#003147] text-white py-3 px-6 rounded mt-4">
+                            Log ind
+                        </Link>
+                    
+                    </div>
+                </div>
+                }
+
                 <button className="text-[#003147] bg-[#E9E9E9] p-3 w-full max-w-[300px] rounded-lg text-lg"
                 type="submit"
                 disabled={isPending}>{ isPending ? "Opretter bruger..." : "Opret bruger" }</button>
             </div>
-            {state.success && <p className="text-green-600">{state.success}</p>}
+            
     
         </form>
     )

@@ -1,13 +1,4 @@
-import { cookies } from 'next/headers';
-  
-export async function getTestimonials() {
-    const response = await fetch("http://localhost:4000/api/v1/testimonials", { next: { revalidate: 60*60*24 } });
-
-    const data = await response.json();
-    console.log(data);
-    return data;
-}
-
+// DAL - Data Access Layer
 
 export async function getActivities() {
     const response = await fetch("http://localhost:4000/api/v1/activities", { next: { revalidate: 60*60*24 } });
@@ -54,6 +45,9 @@ export async function getActivityDetails(id) {
         }
     }
 }
+
+
+import { cookies } from 'next/headers';
 
 export async function getUserDetails(id) {
   const cookieStore = await cookies();

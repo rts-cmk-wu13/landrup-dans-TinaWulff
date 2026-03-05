@@ -6,5 +6,7 @@ import HomeFooter from './HomeFooter';
 
 export default function FooterOrMenu() {
   const pathname = usePathname();
+
   return pathname === '/' ? <HomeFooter /> : <Menu />;
+  
 }

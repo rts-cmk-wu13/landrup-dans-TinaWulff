@@ -1,12 +1,14 @@
 //import { cookies } from 'next/headers';
 //import { getUserDetails } from '../lib/dal';
-// import { redirect } from 'next/navigation';
 
+import { redirect } from 'next/navigation';
 import { getAuthenticatedUser } from '../lib/getAuthentificatedUser';
 import { FaUserLarge } from "react-icons/fa6";
 import InstructorProfile from './InstructorProfile';
 import InstructorHeader from './InstructorHeader';
 import Link from 'next/link';
+import LogoutAction from './logOut-action';
+
 
 export default async function ProfilPage() {
 
@@ -18,7 +20,7 @@ export default async function ProfilPage() {
     if (user.role === "default") {
         // vis medlem-UI
         return (
-            <>
+            <section className='flex flex-col'>
                 <h1 className='text-xl font-semibold text-center my-4'>Min profil</h1>
             
                 <div className='bg-[#E9E9E9] text-[#003147] text-center py-4 flex flex-col items-center gap-2'>
@@ -39,7 +41,11 @@ export default async function ProfilPage() {
                             </article>
                         ))}
                 </section>
-            </>
+
+                <form className='relative flex justify-center mr-4' action={LogoutAction}>
+                <button className='flex-end align-end bg-white/80 px-10 py-2 rounded text-[#003147] absolute top-[50px]' type='submit'>log out</button>
+                </form>
+            </section>
         )
     }
 
@@ -50,6 +56,10 @@ export default async function ProfilPage() {
                 <InstructorHeader />
 
                 <InstructorProfile userId={user.id} />
+                
+                <form className='relative flex justify-center mr-4' action={LogoutAction}>
+                <button className='flex-end align-end bg-white/80 px-10 py-2 rounded text-[#003147] absolute top-[50px]' type='submit'>log out</button>
+                </form>
             </>
         )
     }

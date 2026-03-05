@@ -1,7 +1,7 @@
 import HeroComp from "./components/homeComponents/Hero";
 import TeamTypes from "./components/homeComponents/TeamTypes";
 import NewLetter from "./components/homeComponents/NewLetter";
-import Slider from "./components/homeComponents/slider";
+import Slider from "./components/homeComponents/slider/slider";
 import ContactForm from "./components/homeComponents/ContactForm";
 
 // HoldTyper - Images & objekts til holdtyperne på forsiden.
@@ -9,6 +9,8 @@ import boerneDans from "../assets/boernedans.jpg";
 import seniorDans from "../assets/seniordans.jpg";
 import moderneDans from "../assets/modernedans.jpg";
 import streetDans from "../assets/streethiphop.jpg";
+
+import Link from "next/link";
 
 const articles = [
   { title: "Børnehold", img: boerneDans, text: "På børneholdene leger vi os ind i dansens verden gennem musik, bevægelse og fantasi. Undervisningen styrker motorik, rytme og kropsbevidsthed i trygge rammer. Fokus er på danseglæde, fællesskab og aktiv bevægelse, hvor alle kan være med."},
@@ -23,12 +25,16 @@ const articles = [
     <>
       <HeroComp />
 
-      <section id="TeamTypesSection" className="my-10">
-        <h1 className="mx-6 text-4xl mb-8">Vores holdtyper</h1>
+      <section id="TeamTypesSection" className="my-8 flex flex-col items-center gap-1 mb-12">
+        <h1 className="mx-6 text-4xl mb-6 self-start">Vores holdtyper</h1>
         {articles.map((item, idx) => (
           <TeamTypes key={idx} title={item.title} text={item.text} img={item.img} />
         ))}
+
+        <Link href="/aktiviteter" className="flex justify-center w-[60%] align-center bg-gray-300 text-[#003147] px-6 py-2 rounded-xl text-lg shadow-lg font-medium">Se holdoversigt</Link>
+
       </section>
+
 
       <NewLetter />
 

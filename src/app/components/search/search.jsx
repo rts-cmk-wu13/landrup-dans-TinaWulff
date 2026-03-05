@@ -9,6 +9,7 @@ export default function Search() {
 
   async function handleSearch(e) {
     e.preventDefault();
+    setShowResults(true)
     const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
     const data = await res.json();
     setResults(data);
@@ -16,9 +17,9 @@ export default function Search() {
 
   // Fjern søgeresultater når der klikkes udenfor søgefeltet
   const ref = useRef(); //ref er refferencen til det element vi gerne vil holde øje med, her hele search-komponenten (div), så vi kan tjekke om der klikkes udenfor den. (ligesom document.querySelector('.search').addEventListener('click', handleClickOutside) i almindelig JavaScript.
-    const [showResults, setShowResults] = useState(false);
+  const [showResults, setShowResults] = useState(false);
 
-    useEffect(() => {
+  useEffect(() => {
     function handleClickOutside(event) {
     if (ref.current && !ref.current.contains(event.target)) {
       setShowResults(false);
@@ -26,17 +27,17 @@ export default function Search() {
     }
      document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
+  }, []);
 
-//   Tilføj også så hvis der ikke er nogle søgeresultater, vises i stedet teksten
-// ”Der blev ikke fundet nogle aktiviteter. Prøv at søge efter noget andet.”
+
+  // Tilføj også så hvis der ikke er nogle søgeresultater, vises i stedet teksten
+  // ”Der blev ikke fundet nogle aktiviteter. Prøv at søge efter noget andet.”
 
 
   return (
     <div ref={ref} className="w-full flex flex-col  p-6">
       <form className='flex w-full justify-end'
-      onSubmit={handleSearch}
-      onFocus={() => setShowResults(true)}>
+        onSubmit={handleSearch}>
         <input className="border-none w-full p-2 focus:bg-[#C4C4C4]/30 focus:outline-none rounded-tr-xl rounded-tl-xl rounded-bl-xl"
           type="text"
           value={query}
@@ -48,20 +49,27 @@ export default function Search() {
         </button>
       </form>
 
-        {showResults && results && (
+      {showResults && results && (
         <ul>
-            {/* brug spread-operator til at samle resultaterne fra flere arrays og putte i et array */}
-            {[...(results.activities || []), ...(results.users || [])].map((item) => (
+          {/* brug spread-operator til at samle resultaterne fra flere arrays og putte i et array */}
+          {[...(results.activities || []), ...(results.weekdays || []), ...(results.instructors || [])].map((item) => (
             <li key={item.id}>
-                {/* Vis navn (og evt. type) */}
-                {item.name || item.username}
-                <span className="ml-2 text-xs text-gray-500">
-                    {item.name ? "(Aktivitet)" : "(Bruger)"}
-                </span>
+              {/* Vis navn (og evt. type) */}
+              {item.name}
             </li>
-            ))}
+          ))}
         </ul>
-        )}
+      )}
     </div>
   );
 }
+
+/* Jeg har en React-komponent, der viser et søgefelt. Når brugeren skriver og søger, bliver der lavet et API-kald til /api/search, og resultater vises under feltet.
+
+Hvorfor fetch til API-route?
+Jeg laver et fetch-kald til /api/search for at:
+
+Sende søgeordet til serveren (backend).
+Få relevante resultater tilbage (aktiviteter og brugere).
+Dette kaldes typisk en "API request" eller "server-side search". Det er en god praksis, fordi du kan søge i data på serveren, og kun sende relevante resultater tilbage til klienten.
+ */

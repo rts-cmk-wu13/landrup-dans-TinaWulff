@@ -1,6 +1,11 @@
 # Landrup Dans wep app
 Tina Wulff, WU13
 
+**Valgfri opgave B: Registrering af ny bruger**
+
+**Egne Valg**: Jeg har gjort mig enkelte egne valg i forbindelse med udviklingen og tilpaning i design: **Lavet link til aktiviteter på forsiden nederst i sektionen "holdtyper"**, for at have et link til aktiviteterne, da menuen ikke er synlig på forsiden. Alternativt kunne man ligge menuen på forsiden også men dette var mindre drastisk ændring af designet og bevarer en rolig forside, som ligger op til at se denne side først og guider brugeren igennem siden vha CTA knapper fremfor menu.
+Jeg har desuden tilføjet enkelt ekstra ux vha modal eller dialog bokse, som ikke er direkte beskrevet i designet, fx i forbindelse med oprettelse af bruger og afmelding af hold.
+
 ## Tech stack
 
 **Nextjs** er et Javascript framework, som er komponent-baseret. Frameworket har fil-baseret routing og giver mulighed for at afvikle kode og komponenter på serveren. Jeg har valgt at bruge netop dette framework fordi der allerede er taget en lang række strukturelle valg for mig, for eksempel måden at opbygge routeren på.  
@@ -27,8 +32,9 @@ Dataen jeg henter fra API’et er i **JSON-format**, som er et letvægtsformat t
 Jeg har ikke brugt Typescript, fordi det ville gøre projektet mere komplekst og tungt at arbejde med alene, og det er unødvendigt i dette mindre projekt, hvor jeg arbejder alene. Derfor ikke behov for det ekstra lag af sikkerhed i udviklingen. Typescript giver mest mening, hvis man er flere om et større projekt, hvor det hjælper til at undgå fejl og gøre koden mere overskuelig for alle og undgå fejl i udviklignen. Her er hele koden min, og jeg har overblikket selv, hvilket bevares bedst uden brug af Typescript, som desuden ikke var en del af vores undervisning.
 
 **Andet**
-Alle mine dependencies styres via package.json, hvor jeg blandt andet har installeret React, Next.js, Tailwind og react-icons. Det gør det nemt at holde styr på, hvilke pakker projektet bruger, og hurtigt installere dem igen, hvis man skal sætte projektet op et nyt sted.
-
+Alle mine dependencies styres via package.json, hvor jeg blandt andet har installeret React, Next.js, Tailwind og react-icons. Tailwind er for at kunne lave min Tailwind styling og react-icons hjælper mig så jeg nemt kan importere ikoner til brug i projectet uden at uploade ikonerne som billed-filer i assets.
+jeg har også instaalleret Embla Carousel for at lave moderne slider. Jeg har desuden til dette søgt hjælp her, pga min react version ikke understøttede nyeste goToNext function. 
+scrollPrev/scrollNext, bruges i tidligere versioner som min er; 8.6, og hjælp til sammenligning af versioner fundet: https://github.com/davidjerleke/embla-carousel/discussions/1080 .
 
 
 ## Kodeeksempel
@@ -75,18 +81,22 @@ export default function NewLetter() {
 }
 ```
 
-Jeg har lavet et client-component, der håndterer tilmelding til nyhedsbrevet. Når brugeren indtaster sin email og trykker på "Tilmeld"(på submit knappen), sendes et POST-request til API'et via en action-function (registerEmail), som jeg har importeret fra action.js. Det sker gennem formAction, der er koblet på formularen. Formålet er at sende emailen som data til backend via API'et, så den bliver gemt og kan bruges til at sende nyhedsbreve ud senere.
 
-Jeg bruger useActionState-hooket til at holde styr på state i komponentet; fx om der er fejl, om tilmeldingen er i gang, og om den er gennemført. Det gør det nemt at vise feedback til brugeren, fx en succesbesked eller fejlmeddelelser, alt efter hvad der sker, når man prøver at tilmelde sig. Samtidig gør det koden mere overskuelig, fordi alt state og logik omkring formularen samles ét sted.
+Jeg har lavet et **client-component**, der håndterer tilmelding til nyhedsbrevet.
+Dette er et client-component fordi den skal håndteres via interaktivitet med brugeren og kører i browseren. Jeg bruger altså elementer som skal **håndteres af brugeren i browseren, så det er nødt til at være et client-compoenent** som så taler med serveren når der submittes på formen. 
+
+Når brugeren indtaster sin email og trykker på "Tilmeld"(på submit knappen), sendes et **POST-request til API'et** via en action-function (registerEmail), som jeg har importeret fra action.js. Det sker gennem **formAction**, der er koblet på formularen. Formålet er at sende emailen som data til backend via API'et, så den bliver gemt og kan bruges til at sende nyhedsbreve ud senere.
+
+Jeg bruger **useActionState-hooket** til at holde styr på state i komponentet; fx om der er fejl, om tilmeldingen er i gang, og om den er gennemført. Det gør det nemt at vise feedback til brugeren, fx en succesbesked eller fejlmeddelelser, alt efter hvad der sker, når man prøver at tilmelde sig. Samtidig gør det koden mere overskuelig, fordi alt state og logik omkring formularen samles ét sted.
 useActionState er fungerer godt at bruge til denne slags formularer, fordi den arbejder sammen med en asynkron server action (registerEmail), og automatisk håndterer loading, fejl og succes, når data sendes til backend. Det gør så man slipper for selv at styre  de forskellige state-typer, og kan give brugeren feedback på en moderne og effektiv måde.
 
-I komponentet sætter jeg en initialState, hvor email-feltet er tomt og der ikke er nogen fejl. Det gør, at inputfeltet starter med at være tomt, og at vi har et klart udgangspunkt for state. Når brugeren skriver i inputfeltet, opdateres state automatisk, så vi altid har adgang til det aktuelle input.
-For at inputfeltet altid viser den nyeste værdi fra state, bruger jeg defaultValue på inputfeltet, som sættes til fx "state.values.email". Det gør, at hvis der opstår en fejl (hvis emailen ikke er gyldig), så bevares det, brugeren har skrevet, og inputfeltet opdateres med den aktuelle værdi fra state. På den måde hænger initialState og defaultValue sammen og sikrer, at brugerens input ikke forsvinder, selv hvis der opstår fejl.
+I komponentet sætter jeg en **initialState**, hvor email-feltet er tomt og der ikke er nogen fejl. Det gør, at inputfeltet starter med at være tomt, og at vi har et klart udgangspunkt for state. Når brugeren skriver i inputfeltet, opdateres state automatisk, så vi altid har adgang til det aktuelle input.
+For at inputfeltet altid viser den nyeste værdi fra state, bruger jeg **defaultValue på inputfeltet**, som sættes til fx "state.values.email". Det gør, at hvis der opstår en fejl (hvis emailen ikke er gyldig), så bevares det, brugeren har skrevet, og inputfeltet opdateres med den aktuelle værdi fra state. På den måde hænger initialState og defaultValue sammen og sikrer, at brugerens input ikke forsvinder, selv hvis der opstår fejl.
 Det gør det nemt at give feedback og sikre en god brugeroplevelse. Samtidig kan vi vise en succesbesked, hvis tilmeldingen lykkes, fordi state også holder styr på, om handlingen er gennemført.
 
 Når brugeren indsender formularen, opdateres state automatisk med enten en succesbesked eller en fejlbesked, afhængigt af serverens svar. Det vises direkte i UI’et, så brugeren får feedback med det samme. Det gør det nemt at forstå, om tilmeldingen er lykkedes, eller om der skal rettes noget.
 
-isPending bruges til at holde styr på loading-status og er en variabel, der viser om handlingen (registreringen) er i gang. Når isPending er true, vises en loading-besked, og knappen bliver disabled, så brugeren ikke kan trykke flere gange. Det sikrer, at man ikke sender flere requests og giver en bedre brugeroplevelse.
+**isPending** bruges til at holde styr på loading-status og er en variabel, der viser om handlingen (registreringen) er i gang. Når isPending er true, vises en loading-besked, og knappen bliver disabled, så brugeren ikke kan trykke flere gange. Det sikrer, at man ikke sender flere requests og giver en bedre brugeroplevelse.
 
 Jeg har stylet med Tailwind-klasser for overskuelighed og hurtig styling direkte i koden. Det gør det nemt at se hurtigt hvad der egentligt er sat på af styling og hvis man vil ændre noget kan man hurtigt få overblik og ændre uden at skulle lede i seperate css-filer.
 
